@@ -1,0 +1,23 @@
+{
+  "name": "memoize-recursive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaulShestakov/memoize-recursive.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PaulShestakov/memoize-recursive/issues"
+  },
+  "homepage": "https://github.com/PaulShestakov/memoize-recursive#readme",
+  "devDependencies": {
+    "jest": "^26.4.2",
+    "prettier": "^2.0.5"
+  }
+}
