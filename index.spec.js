@@ -1,4 +1,4 @@
-const { memoizeRecursive } = require("./index");
+const { recursive, memoizeInner } = require("./index");
 
 describe("should use memoized results across calls", () => {
   let factorial;
@@ -14,7 +14,7 @@ describe("should use memoized results across calls", () => {
       }
     };
 
-    factorial = memoizeRecursive(factorial1);
+    factorial = recursive(memoizeInner(factorial1));
   });
 
   beforeEach(() => {
@@ -51,7 +51,7 @@ describe("should use memoized results across calls", () => {
       }
     };
 
-    exponent = memoizeRecursive(exponent1);
+    exponent = recursive(memoizeInner(exponent1));
   });
 
   beforeEach(() => {

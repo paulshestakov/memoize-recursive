@@ -1,28 +1,102 @@
-Apply memoization to recursive functions:
+[![npm](https://img.shields.io/npm/v/memoize-recursive)](https://www.npmjs.com/package/memoize-recursive)
 
-Define recursive function in a format:
+# Problem
+
+Given a binary exponentiation function:
 
 ```
-const f1 = (f) => (...args) => {
-  // smth
-  return f(...someArgs)
+const exponent = (x, n) => {
+  if (n === 0) {
+    return 1;
+  }
+  if (n % 2 === 1) {
+    return x * exponent(x * x, Math.floor(n / 2));
+  } else {
+    return exponent(x * x, Math.floor(n / 2));
+  }
+}
+
+exponent(2, 8)
+  // 256, three multiplications
+exponent(2, 9)
+  // 512, four multiplications
+```
+
+Consider given standart `memoize` function:
+
+```
+const mExponent = memoize(exponent)
+
+mExponent(2, 8)
+  // 256, three multiplications
+mExponent(2, 8)
+  // 256, returns the memoized result, no multiplications
+
+mExponent(2, 9)
+  // 512, four multiplications
+```
+
+The problem is that inner recursive call in `exponent` is not memoized
+
+Workaround(hardcoced, not composable):
+
+```
+const mExponent = memoized((x, n) => {
+  if (n === 0) {
+    return 1;
+  }
+  if (n % 2 === 1) {
+    return x * mExponent(x * x, Math.floor(n / 2));
+  } else {
+    return mExponent(x * x, Math.floor(n / 2));
+  }
+});
+
+mExponent(2, 8)
+  // 256, three multiplications
+mExponent(2, 9)
+  // 512, one multiplication
+```
+
+# Solution
+
+Define recursive function with abstraction point at f:
+
+```
+const exponent1 = (f) => (x, n) => {
+  if (n === 0) {
+    return 1;
+  }
+  if (n % 2 === 1) {
+    return x * f(x * x, Math.floor(n / 2));
+  } else {
+    return f(x * x, Math.floor(n / 2));
+  }
 }
 ```
 
-Example:
+Create recursive function:
 
 ```
-const {memoizeRecursive} = require('memoize-recursive');
+const {recursive} = require('memoize-recursive');
 
-// Define a recursive function with recursive function f as abstraction point
-const factorial1 = f => x => x <= 1 ? 1 : f(x - 1);
+const exponent = recursive(exponent1);
 
-// Create a recursive memoized function
-const factorial = memoizeRecursive(factorial1);
+exponent(2, 8)
+  // 256, three multiplications
+exponent(2, 8)
+  // 256, three multiplications
+```
 
-// Expect 2 mult calls to happen
-factorial(3);
+Create recursive memoized function:
 
-// Expect 1 mult call to happen
-factorial(4);
+```
+const {recursive, memoizeInner} = require('memoize-recursive');
+
+const mExponent = recursive(memoizeInner(exponent1));
+
+mExponent(2, 8)
+  // 256, three multiplications
+mExponent(2, 9)
+  // 512, one multiplication
 ```

@@ -1,7 +1,12 @@
-const recursive = (f) =>
-  ((s) => (...arg) => f(s(s))(...arg))((s) => (...arg) => f(s(s))(...arg));
+const recursive =
+  f =>
+    (
+      s => (...args) => f ( s (s) ) (...args)
+    )(
+      s => (...args) => f ( s (s) ) (...args)
+    );
 
-const memoize = (fn, keymaker = JSON.stringify) => {
+const memoizeInner = (fn, keymaker = JSON.stringify) => {
   const lookup = new Map();
 
   return (f) => (...args) => {
@@ -11,6 +16,4 @@ const memoize = (fn, keymaker = JSON.stringify) => {
   };
 };
 
-const memoizeRecursive = (f) => recursive(memoize(f));
-
-module.exports = { memoizeRecursive };
+module.exports = { recursive, memoizeInner };
