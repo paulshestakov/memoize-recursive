@@ -4,7 +4,7 @@
 
 Given a binary exponentiation function:
 
-```
+```js
 const exponent = (x, n) => {
   if (n === 0) {
     return 1;
@@ -24,7 +24,7 @@ exponent(2, 9)
 
 Consider given standart `memoize` function:
 
-```
+```js
 const mExponent = memoize(exponent)
 
 mExponent(2, 8)
@@ -40,7 +40,7 @@ The problem is that inner recursive call in `exponent` is not memoized
 
 Workaround(hardcoced, not composable):
 
-```
+```js
 const mExponent = memoized((x, n) => {
   if (n === 0) {
     return 1;
@@ -62,7 +62,7 @@ mExponent(2, 9)
 
 Define recursive function with abstraction point at f:
 
-```
+```js
 const exponent1 = (f) => (x, n) => {
   if (n === 0) {
     return 1;
@@ -77,7 +77,7 @@ const exponent1 = (f) => (x, n) => {
 
 Create recursive function:
 
-```
+```js
 const {recursive} = require('memoize-recursive');
 
 const exponent = recursive(exponent1);
@@ -90,7 +90,7 @@ exponent(2, 8)
 
 Create recursive memoized function:
 
-```
+```js
 const {recursive, memoizeInner} = require('memoize-recursive');
 
 const mExponent = recursive(memoizeInner(exponent1));
