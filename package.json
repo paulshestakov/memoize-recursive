@@ -2,8 +2,10 @@
   "name": "memoize-recursive",
   "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "prepublish": "tsc",
     "test": "jest"
   },
   "repository": {
@@ -17,7 +19,12 @@
   },
   "homepage": "https://github.com/PaulShestakov/memoize-recursive#readme",
   "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/jest": "^26.0.16",
     "jest": "^26.4.2",
-    "prettier": "^2.0.5"
+    "prettier": "^2.2.1",
+    "ramda": "^0.27.1",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.2"
   }
 }
